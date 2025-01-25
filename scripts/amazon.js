@@ -46,14 +46,40 @@ products.forEach((product)=>{
             <img src="images/icons/checkmark.png">
             Added
           </div>
-
-          <button class="add-to-cart-button button-primary">
+          <!--data attribute is used to store data on html element-->
+          <button class="add-to-cart-button button-primary js-add-to-cart"
+          data-product-Id="${product.id}">
             Add to Cart
           </button>
         </div>
     `;
 });
 
-console.log(productHtml);
+// console.log(productHtml);
 
 document.querySelector('.js-products-grid').innerHTML=productHtml;
+
+document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
+    button.addEventListener('click',()=>{
+      // dataset property gives all the data attributes that is attached to this button
+        const productId=button.dataset.productId;
+        // first make the cart and its property like productName and quantity
+        let matchingItem;
+        cart.forEach((item)=>{
+          if(productId===item.productId){
+            matchingItem=item;
+          }
+        });
+        
+        if(matchingItem){
+          matchingItem.quantity+=1;
+        }else{
+          cart.push({
+            productId:productId,
+            quantity:1
+          });
+        }
+        console.log(cart);
+    });
+});
+
