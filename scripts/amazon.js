@@ -1,3 +1,6 @@
+// Note:to get modules to work we need to open it with live server
+import {cart} from '../data/cart.js';
+
 let productHtml='';
 
 products.forEach((product)=>{
@@ -37,12 +40,13 @@ products.forEach((product)=>{
               <option value="8">8</option>
               <option value="9">9</option>
               <option value="10">10</option>
+              <option value="11">11</option>
             </select>
           </div>
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="added-to-cart js-added-checkmark-${product.id}">
             <img src="images/icons/checkmark.png">
             Added
           </div>
@@ -89,8 +93,17 @@ document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
         });
 
         document.querySelector('.js-cart-quantity').innerHTML=cartQuantity;
+
+        // displaying the added msg after clicking add to cart button.
+        const addedMessage=document.querySelector(`.js-added-checkmark-${productId}`);
+        addedMessage.classList.add('js-added-checkmark-visible');
+        setInterval(()=>{
+          addedMessage.classList.remove('js-added-checkmark-visible')
+        },4000);
         console.log(cartQuantity);
         console.log(cart);
     });
 });
+
+
 
