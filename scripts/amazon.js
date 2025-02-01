@@ -1,5 +1,5 @@
 // Note:to get modules to work we need to open it with live server
-import {cart} from '../data/cart.js';
+import {cart, addToCart} from '../data/cart.js';
 import { products } from '../data/products.js';
 
 let productHtml='';
@@ -64,43 +64,36 @@ products.forEach((product)=>{
 
 document.querySelector('.js-products-grid').innerHTML=productHtml;
 
+
+
+function updateCartQuantity(){
+  // calculating the Total Quantity
+  let cartQuantity=0;
+
+  cart.forEach((cartItem)=>{
+    cartQuantity+=cartItem.quantity;
+  });
+  document.querySelector('.js-cart-quantity').innerHTML=cartQuantity;
+};
+
+
 // making Add to cart button interactive
 document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
     button.addEventListener('click',()=>{
       // dataset property gives all the data attributes that is attached to this button
         const productId=button.dataset.productId;
-        // first make the cart and its property like productName and quantity
-        let matchingItem;
-        cart.forEach((item)=>{
-          if(productId===item.productId){
-            matchingItem=item;
-          }
-        });
-        
-        if(matchingItem){
-          matchingItem.quantity+=1;
-        }else{
-          cart.push({
-            productId:productId,
-            quantity:1
-          });
-        }
-
-        // calculating the Total Quantity
-        let cartQuantity=0;
-
-        cart.forEach((item)=>{
-          cartQuantity+=item.quantity;
-        });
-
-        document.querySelector('.js-cart-quantity').innerHTML=cartQuantity;
+        addToCart(productId);
+        updateCartQuantity();
 
         // displaying the added msg after clicking add to cart button.
         const addedMessage=document.querySelector(`.js-added-checkmark-${productId}`);
+
         addedMessage.classList.add('js-added-checkmark-visible');
+
         setInterval(()=>{
           addedMessage.classList.remove('js-added-checkmark-visible')
         },4000);
+
         console.log(cartQuantity);
         console.log(cart);
     });
