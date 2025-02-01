@@ -1,5 +1,6 @@
 // Note:to get modules to work we need to open it with live server
 import {cart} from '../data/cart.js';
+import { products } from '../data/products.js';
 
 let productHtml='';
 
