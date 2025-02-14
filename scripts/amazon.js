@@ -1,6 +1,7 @@
 // Note:to get modules to work we need to open it with live server
 import {cart, addToCart} from '../data/cart.js';
 import { products } from '../data/products.js';
+import { formatCurrency } from './utils/money.js';
 
 let productHtml='';
 
@@ -26,7 +27,7 @@ products.forEach((product)=>{
 
           <div class="product-price">
             <!--toFixed() fun formats the number to a fixed decimal place and return it as string.-->
-            $${(product.priceCents/100).toFixed(2)}
+            $${formatCurrency(product.priceCents)}
           </div>
 
           <div class="product-quantity-container">
