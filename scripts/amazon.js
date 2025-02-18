@@ -95,7 +95,6 @@ document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
           addedMessage.classList.remove('js-added-checkmark-visible')
         },4000);
 
-        console.log(cartQuantity);
         console.log(cart);
     });
 });
