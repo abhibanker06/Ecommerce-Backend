@@ -77,6 +77,7 @@ function updateCartQuantity(){
   document.querySelector('.js-cart-quantity').innerHTML=cartQuantity;
 };
 
+updateCartQuantity();
 
 // making Add to cart button interactive
 document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
