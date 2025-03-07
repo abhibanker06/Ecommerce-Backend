@@ -1,8 +1,8 @@
 import {cart,removeFromCart,updateDeliveryOption} from '../../data/cart.js';
-import { products } from '../../data/products.js';
+import { products,getProduct } from '../../data/products.js';
 import { formatCurrency } from '../utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
-import {deliveryOptions} from '../../data/deliveryOptions.js';
+import {deliveryOptions, getDeliveryOption} from '../../data/deliveryOptions.js';
 
 // ESM version=Ecmascrpit module its just another name for java script. ESM version of library just works with the java script modules.
 // default export method is when u want to export one thing from the file. we dont need to use curly brackets we ca directly name the module.
@@ -15,22 +15,11 @@ export function rendorOrderSummary(){
   cart.forEach((cartItem)=>{
       const productId = cartItem.productId;
 
-      let matchingProduct;
+      const matchingProduct=getProduct(productId);
 
-      products.forEach((product)=>{
-          if(product.id===productId){
-              matchingProduct=product;
-          }
-      });
+      const deliveryOptionId=cartItem.deliveryOptionId;
 
-
-      let deliveryOption;
-
-      deliveryOptions.forEach((options)=>{
-        if(options.id===cartItem.deliveryOptionId){
-          deliveryOption=options;
-        }
-      });
+      const deliveryOption=getDeliveryOption(deliveryOptionId);
 
       const today=dayjs();
       const deliveryDate=today.add(
