@@ -8,7 +8,7 @@ export function getProduct(productId){
   });
 
   return matchingProduct;
-}
+} 
 
 export const products = [
   {
