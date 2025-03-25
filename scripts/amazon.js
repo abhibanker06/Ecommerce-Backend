@@ -67,7 +67,7 @@ document.querySelector('.js-products-grid').innerHTML=productHtml;
 
 
 
-function updateCartQuantity(){
+export function updateCartQuantity(){
   // calculating the Total Quantity
   let cartQuantity=0;
 
