@@ -1,3 +1,5 @@
+// unit test-testing one piece of the code
+
 import {addToCart,cart,loadFromStorage} from '../data/cart.js';
 
 // Flanky Tests:tests that sometimes passes and sometimes fails.
