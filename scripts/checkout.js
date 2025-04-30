@@ -5,3 +5,5 @@ import '../data/backend-practice.js';
 
 rendorOrderSummary();
 rendorpaymentSummary();
+
+
