@@ -85,10 +85,13 @@ export function rendorpaymentSummary() {
             });
             const order= await response.json();
             addOrder(order);
+            
         }catch (error){
             console.log('Unexpected error. Try again later')
         }
         window.location.href='orders.html';
+        
     });
+
 }
 
