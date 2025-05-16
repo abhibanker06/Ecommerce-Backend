@@ -37,7 +37,7 @@ function rendorPlaceOrderSummary(){
                 </div>
 
                 <div class="product-actions">
-                    <a href="tracking.html?${orderItems.id}&${matchingProduct.id}">
+                    <a href="tracking.html?orderId=${orderItems.id}&productId=${matchingProduct.id}">
                         <button class="track-package-button button-secondary">
                         Track package
                         </button>
