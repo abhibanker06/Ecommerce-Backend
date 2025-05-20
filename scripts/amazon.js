@@ -1,11 +1,13 @@
 // Note:to get modules to work we need to open it with live server
-import {cart, addToCart} from '../data/cart.js';
+import {addToCart} from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
+import { updateCartQuantity } from './utils/cartQuantity.js';
 
-let productHtml='';
 
-products.forEach((product)=>{
+function rendorProdcuts(productList){
+  let productHtml='';
+  productList.forEach((product)=>{
     productHtml+=`
         <div class="product-container">
           <div class="product-image-container">
@@ -61,21 +63,9 @@ products.forEach((product)=>{
     `;
 });
 
-// console.log(productHtml);
-
 document.querySelector('.js-products-grid').innerHTML=productHtml;
-
-
-
-export function updateCartQuantity(){
-  // calculating the Total Quantity
-  let cartQuantity=0;
-
-  cart.forEach((cartItem)=>{
-    cartQuantity+=cartItem.quantity;
-  });
-  document.querySelector('.js-cart-quantity').innerHTML=cartQuantity;
-};
+}
+rendorProdcuts(products);
 
 updateCartQuantity();
 
@@ -96,12 +86,65 @@ document.querySelectorAll('.js-add-to-cart').forEach((button)=>{
           addedMessage.classList.remove('js-added-checkmark-visible')
         },4000);
 
-        
-
-        // console.log(cart);
     });
 });
 
 
+function handleSearch(){
+  const searchInput = document.querySelector('.js-search-bar').value.toLowerCase();
+  const productsGrid = document.querySelector('.js-products-grid');
+  productsGrid.removeAttribute('style');
 
+  const filteredProducts = products.filter((product) => {
+    // Check if the product name includes the search text
+    const nameMatch = product.name.toLowerCase().includes(searchInput);
+
+    // Check if any keyword includes the search text
+    const keywordMatch = product.keywords.some(keyword =>
+      keyword.toLowerCase().includes(searchInput)
+    );
+
+    return nameMatch || keywordMatch;
+  });
+
+  if (filteredProducts.length === 0) {
+    productsGrid.innerHTML = `<div class="no-results">
+    <img src="https://img.icons8.com/?size=100&id=ZQVLPXCCdZMh&format=png&color=000000">
+    <p>Sorry,No products found!</p>
+    <p id="not-available">Please check the spelling or try searching for something else</p>
+    </div>
+    `;
+    productsGrid.style.display = 'flex';
+    productsGrid.style.justifyContent = 'center';
+    productsGrid.style.alignItems = 'center';
+    productsGrid.style.minHeight = '500px';
+    return;
+  }
+
+  rendorProdcuts(filteredProducts);
+  // Reattach event listeners to the Add to Cart buttons
+  document.querySelectorAll('.js-add-to-cart').forEach((button) => {
+    button.addEventListener('click', () => {
+      const productId = button.dataset.productId;
+      addToCart(productId);
+      updateCartQuantity();
+
+      const addedMessage = document.querySelector(`.js-added-checkmark-${productId}`);
+      addedMessage.classList.add('js-added-checkmark-visible');
+
+      setTimeout(() => {
+        addedMessage.classList.remove('js-added-checkmark-visible');
+      }, 4000);
+    });
+  });
+
+}
+
+document.querySelector('.js-search-bar').addEventListener('keydown', (event)=>{
+  if (event.key === 'Enter') {
+    handleSearch();
+  }
+});
+
+document.querySelector('.js-search-button').addEventListener('click',handleSearch);
 

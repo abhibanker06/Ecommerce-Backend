@@ -3,9 +3,6 @@
   <head>
     <title>Amazon Project</title>
 
-    <!-- This code is needed for responsive design to work.
-      (Responsive design = make the website look good on
-      smaller screen sizes like a phone or a tablet). -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Load a font called Roboto from Google Fonts. -->
@@ -21,7 +18,7 @@
   <body>
     <div class="amazon-header">
       <div class="amazon-header-left-section">
-        <a href="amazon.html" class="header-link">
+        <a href="index.html" class="header-link">
           <img class="amazon-logo"
             src="images/amazon-logo-white.png">
           <img class="amazon-mobile-logo"
@@ -30,7 +27,7 @@
       </div>
 
       <div class="amazon-header-middle-section">
-        <input class="search-bar" type="text" placeholder="Search">
+        <input class="search-bar js-search-bar" type="text" placeholder="Search">
 
         <button class="search-button">
           <img class="search-icon" src="images/icons/search-icon.png">
@@ -38,7 +35,7 @@
       </div>
 
       <div class="amazon-header-right-section">
-        <a class="orders-link header-link" href="orders.html">
+        <a class="orders-link header-link" href="orders.html" target="_blank">
           <span class="returns-text">Returns</span>
           <span class="orders-text">& Orders</span>
         </a>
@@ -56,9 +53,6 @@
       </div>
     </div>
 
-    <!-- modules are better way to organize our code and avoiding the name conflicts -->
-    <!-- <script src="data/cart.js"></script> -->
-    <!-- <script src="data/products.js"></script> -->
     <script type="module" src="scripts/amazon.js"></script>
   </body>
 </html>

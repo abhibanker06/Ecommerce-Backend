@@ -1,6 +1,7 @@
 import { getMyOrder } from '../data/orders.js';
 import { getProduct } from '../data/products.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
+import { updateCartQuantity } from './utils/cartQuantity.js';
 
 const url = new URL(window.location.href);
 const orderId = url.searchParams.get('orderId');
@@ -11,11 +12,13 @@ const matchingOrder=getMyOrder(orderId);
 const products=matchingOrder.products;
 const matchingProduct=getProduct(productId);
 
+const matchingItem=getMyItem(productId);
+let deliveryDate=matchingItem.estimatedDeliveryTime;
+const quantity=matchingItem.quantity;
+
 function rendortrackingSummary(){
     let trackingSummaryHTML='';
-    const matchingItem=getMyItem(productId);
-    const deliveryDate=matchingItem.estimatedDeliveryTime;
-    const quantity=matchingItem.quantity;
+    
 
     trackingSummaryHTML+=
     `
@@ -44,12 +47,16 @@ function rendortrackingSummary(){
             <div class="progress-label">
             Preparing
             </div>
-            <div class="progress-label current-status">
+            <div class="progress-label">
             Shipped
             </div>
             <div class="progress-label">
             Delivered
             </div>
+        </div>
+
+        <div class="progress-bar-container">
+          <div class="progress-bar"></div>
         </div>
 
         
@@ -72,4 +79,45 @@ function getMyItem(productId){
     return matchingItem;
 };
 
+updateCartQuantity();
 rendortrackingSummary();
+
+function ProgressBasedOnDelivery() {
+    const today = dayjs();
+    const delivery = dayjs(deliveryDate);
+    const daysLeft = delivery.diff(today, 'day');
+
+    const progressBar = document.querySelector('.progress-bar');
+    const labels = document.querySelectorAll('.progress-label');
+  
+    let width = 0;
+    let activeIndex = 0;
+
+    if (daysLeft > 2) {
+        width = 23;
+        activeIndex = 0; 
+    } else if (daysLeft > 0 && daysLeft<=2) {
+        width = 50;
+        activeIndex = 1; 
+    } else if(daysLeft===0) {
+        width = 100;
+        activeIndex = 2; 
+    }                      
+  
+    
+    labels.forEach((label, index) => {
+        label.classList.remove('current-status');
+        if (index === activeIndex) {
+          label.classList.add('current-status');
+        }
+      });
+
+    progressBar.style.width = `${width}%`;
+
+
+  };
+
+  ProgressBasedOnDelivery();
+
+  
+
